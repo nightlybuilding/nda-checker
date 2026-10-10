@@ -18,7 +18,7 @@ def handle_some_command(ack, respond, command, logger):
     ack()
     user_message=command.get("text", "").strip()
     user_id=command.get("user_id", "")
-    response=requests.get(f"{endpoint}{user_id}")
+    response=requests.get(f"{endpoint}{user_id}", timeout=5)
     
     if response.status_code==429:
         respond(f"Too many requests: {response.json()}")
