@@ -19,8 +19,15 @@ def handle_some_command(ack, respond, command, logger):
     user_message=command.get("text", "").strip()
     user_id=command.get("user_id", "")
     response=requests.get(f"{endpoint}{user_id}")
-
-    respond(f"User: *{user_message}*, user id is {user_id}, {response.json()}")
+    
+    if response.status_code==429:
+        respond(f"Too many requests: {response.json()}")
+    elif response.status_code==200:
+        respond(f"User: *{user_message}*, user id is {user_id}, {response.json()}")
+    elif response.status_code==400:
+        respond(f"Bad request: {response.json()}")
+    else:
+        respond(f"Unexpected error: {response.status_code}, {response.json()}")
 
 if __name__ == "__main__":
     SocketModeHandler(app, app_token).start()
