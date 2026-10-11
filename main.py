@@ -38,7 +38,11 @@ def handle_some_command(ack, respond, command, logger):
         signature_type=data.get("signature_type", "")
         slack_id=data.get("slack_id", "")
 
-        respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\nSigned at: *{signed_at}*\nSignature type: *{signature_type}*\n")
+        if status=="not_signed":
+            respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\n")
+        else:
+            respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\nSigned at: *{signed_at}*\nSignature type: *{signature_type}*\n")
+
     elif response.status_code==400:
         respond(f"Bad request: {response.json()}")
     else:
