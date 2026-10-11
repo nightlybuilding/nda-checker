@@ -31,7 +31,14 @@ def handle_some_command(ack, respond, command, logger):
     if response.status_code==429:
         respond(f"Too many requests: {response.json()}")
     elif response.status_code==200:
-        respond(f"User: *{user_message}*, user id is {user_id}, {response.json()}")
+        data=response.json()
+        status=data.get("status", "")
+        version=data.get("nda_version", "")
+        signed_at=data.get("signed_at", "")
+        signature_type=data.get("signature_type", "")
+        slack_id=data.get("slack_id", "")
+
+        respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\nSigned at: *{signed_at}*\nSignature type: *{signature_type}*\n")
     elif response.status_code==400:
         respond(f"Bad request: {response.json()}")
     else:
