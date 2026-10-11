@@ -1,5 +1,6 @@
 import os
 import requests
+import re
 from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
@@ -17,7 +18,14 @@ app=App(token=bot_token)
 def handle_some_command(ack, respond, command, logger):
     ack()
     user_message=command.get("text", "").strip()
-    user_id=command.get("user_id", "")
+    match=re.search(r"<@([A-Z0-9]+)", user_message)
+
+    if match:
+        user_id=match.group(1)
+    else:
+        respond("Please provide a valid user mention.")
+        return
+    
     response=requests.get(f"{endpoint}{user_id}", timeout=5)
     
     if response.status_code==429:
