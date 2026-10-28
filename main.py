@@ -3,6 +3,7 @@ import requests
 import re
 import logging
 import time
+from datetime import datetime
 from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
@@ -63,10 +64,13 @@ def handle_some_command(ack, respond, command, logger):
             signature_type=data.get("signature_type", "")
             slack_id=data.get("slack_id", "")
 
+            sign_time=datetime.fromisoformat(signed_at.replace("Z", "+00:00")) if signed_at else None
+            final_sign_time=sign_time.strftime("%B %d, %Y at %I:%M %p") if sign_time else "N/A"
+
             if status=="not_signed":
                 respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\n")
             else:
-                respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\nSigned at: *{signed_at}*\nSignature type: *{signature_type}*\n")
+                respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\nSigned at: *{final_sign_time}*\nSignature type: *{signature_type}*\n")
 
         elif response.status_code==400:
             respond(f"Bad request: {response.json()}")
