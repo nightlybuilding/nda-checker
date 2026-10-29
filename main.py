@@ -68,7 +68,7 @@ def handle_some_command(ack, respond, command, logger):
             final_sign_time=sign_time.strftime("%B %d, %Y at %I:%M %p") if sign_time else "N/A"
 
             if status=="not_signed":
-                respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\n")
+                respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\n")
             else:
                 respond(f"User: *{user_message}*\nSlack ID: *{slack_id}*\nNDA status: *{status}*\nNDA version: *{version}*\nSigned at: *{final_sign_time}*\nSignature type: *{signature_type}*\n")
 
