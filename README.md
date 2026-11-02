@@ -4,8 +4,9 @@ A Slack Bot to Check if Someone is Under NDA
 This bot listens for the slash command, automatically extracts the pinged user's unique Slack User ID, queries HTTPS endpoint, and returns a formatted status report.
 
 ## Features
-* **Socket Mode Architecture** — Connects directly to Slack via WebSockets.
-* **Rate Limiting** — Handles `HTTP 429 Too Many Requests` by following `Retry-After`.
+* **Live Data**- Fetches all the data live from API
+* **Slack Connection**— Connects directly to Slack via WebSockets and can be used using a slash command
+* **Error Handling** — Handles `HTTP 429` by following `Retry-After`, along with error handling for diagnosing
 
 ## Slash Command
 * **`nda`** — Check if a User has NDA
@@ -35,6 +36,4 @@ This bot listens for the slash command, automatically extracts the pinged user's
 ### Running the Application
 
 Run `main.py` to start the slack bot.
-
----
 
